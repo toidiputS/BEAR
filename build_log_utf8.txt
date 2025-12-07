@@ -1,0 +1,124 @@
+﻿
+> b.e.a.r.@1.2.0 build
+> vite build
+
+[36mvite v6.4.1 [32mbuilding for production...[36m[39m
+transforming...
+[32mΓ£ô[39m 6 modules transformed.
+node.exe : 
+[31mΓ£ù[39m Build 
+failed in 677ms
+At C:\nvm4w\nodejs\npm
+.ps1:16 char:5
++     & 
+"$basedir/node$exe"  "
+$basedir/node_modules/
+npm/bin/npm-cli.js" 
+...
++     ~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~
+~~~~~
+    + CategoryInfo    
+          : NotSpeci  
+  fied: ([31mΓ£ù[   
+ 39m Build failed     
+in 677ms:String)     
+[], RemoteExcepti    
+on
+    + FullyQualifiedE 
+   rrorId : NativeCo  
+  mmandError
+ 
+[31merror during 
+build:
+[31m[vite-plugin-pwa:
+build] [plugin vite-pl
+ugin-pwa:build] index.
+html?html-proxy&inline
+-css&index=0.css 
+(undefined:NaN): 
+There was an error 
+during the build:
+  [postcss] It looks 
+like you're trying to 
+use `tailwindcss` 
+directly as a PostCSS 
+plugin. The PostCSS 
+plugin has moved to a 
+separate package, so 
+to continue using 
+Tailwind CSS with 
+PostCSS you'll need 
+to install `@tailwindc
+ss/postcss` and 
+update your PostCSS 
+configuration.
+Additionally, 
+handling the error in 
+the 'buildEnd' hook 
+caused the following 
+error:
+  [postcss] It looks 
+like you're trying to 
+use `tailwindcss` 
+directly as a PostCSS 
+plugin. The PostCSS 
+plugin has moved to a 
+separate package, so 
+to continue using 
+Tailwind CSS with 
+PostCSS you'll need 
+to install `@tailwindc
+ss/postcss` and 
+update your PostCSS 
+configuration.[31m
+file: [36mC:/Trader 
+Lcl Dev/BEAR/index.htm
+l?html-proxy&inline-cs
+s&index=0.css:undefine
+d:NaN[31m
+    at getRollupError 
+(file:///C:/Trader%20L
+cl%20Dev/BEAR/node_mod
+ules/rollup/dist/es/sh
+ared/parseAst.js:401:4
+1)
+    at file:///C:/Trad
+er%20Lcl%20Dev/BEAR/no
+de_modules/rollup/dist
+/es/shared/node-entry.
+js:23347:39
+    at async catchUnfi
+nishedHookActions (fil
+e:///C:/Trader%20Lcl%2
+0Dev/BEAR/node_modules
+/rollup/dist/es/shared
+/node-entry.js:22805:1
+6)
+    at async 
+rollupInternal (file:/
+//C:/Trader%20Lcl%20De
+v/BEAR/node_modules/ro
+llup/dist/es/shared/no
+de-entry.js:23330:5)
+    at async 
+buildEnvironment (file
+:///C:/Trader%20Lcl%20
+Dev/BEAR/node_modules/
+vite/dist/node/chunks/
+dep-D4NMHUTW.js:46235:
+14)
+    at async Object.de
+faultBuildApp [as 
+buildApp] (file:///C:/
+Trader%20Lcl%20Dev/BEA
+R/node_modules/vite/di
+st/node/chunks/dep-D4N
+MHUTW.js:46713:5)
+    at async 
+CAC.<anonymous> (file:
+///C:/Trader%20Lcl%20D
+ev/BEAR/node_modules/v
+ite/dist/node/cli.js:8
+63:7)[39m
