@@ -1,1 +1,115 @@
 @import "tailwindcss";
+
+@theme {
+    /* Fonts */
+    --font-mono: "JetBrains Mono", monospace;
+    --font-sans: "Inter", sans-serif;
+
+    /* PAWS Color Palette */
+    --color-paws-bg: var(--paws-bg);
+    --color-paws-surface: var(--paws-surface);
+    --color-paws-text: var(--paws-text);
+    --color-paws-accent: var(--paws-accent);
+    --color-paws-border: var(--paws-border);
+
+    /* CLAWS Color Palette */
+    --color-claws-bg: var(--claws-bg);
+    --color-claws-surface: var(--claws-surface);
+    --color-claws-text: var(--claws-text);
+    --color-claws-accent: var(--claws-accent);
+    --color-claws-border: var(--claws-border);
+
+    /* Animations */
+    --animate-float: float 6s ease-in-out infinite;
+    --animate-pulse-slow: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    --animate-slide-up-fade: slideUpFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    --animate-fade-in: fadeIn 0.4s ease-out forwards;
+    --animate-shake: shake 0.5s cubic-bezier(.36, .07, .19, .97) both;
+    --animate-pop: pop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+
+    /* Keyframes */
+    @keyframes float {
+
+        0%,
+        100% {
+            transform: translateY(0);
+        }
+
+        50% {
+            transform: translateY(-6px);
+        }
+    }
+
+    @keyframes slideUpFade {
+        0% {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes fadeIn {
+        0% {
+            opacity: 0;
+        }
+
+        100% {
+            opacity: 1;
+        }
+    }
+
+    @keyframes shake {
+
+        10%,
+        90% {
+            transform: translate3d(-1px, 0, 0);
+        }
+
+        20%,
+        80% {
+            transform: translate3d(2px, 0, 0);
+        }
+
+        30%,
+        50%,
+        70% {
+            transform: translate3d(-4px, 0, 0);
+        }
+
+        40%,
+        60% {
+            transform: translate3d(4px, 0, 0);
+        }
+    }
+
+    @keyframes pop {
+        0% {
+            transform: scale(0.5);
+            opacity: 0;
+        }
+
+        100% {
+            transform: scale(1);
+            opacity: 1;
+        }
+    }
+}
+
+/* Base Variables */
+:root {
+    --paws-bg: #E4E4DC;
+    --paws-surface: #D8D8D0;
+    --paws-text: #3E3E38;
+    --paws-accent: #6E7C61;
+    --paws-border: #C8C8C0;
+
+    --claws-bg: #111827;
+    --claws-surface: #1F2937;
+    --claws-text: #F59E0B;
+    --claws-accent: #EF4444;
+    --claws-border: #374151;
+}
