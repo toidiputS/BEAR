@@ -1,65 +1,57 @@
-import { GoogleGenAI, Content, Part } from "@google/genai";
+import { GoogleGenerativeAI, Content, Part } from "@google/generative-ai";
 import { Message, Mode, UserProfile } from '../types';
 import { PAWS_SYSTEM_PROMPT, CLAWS_SYSTEM_PROMPT } from '../constants';
 
+// Access the key defined in vite.config.ts
 const API_KEY = process.env.API_KEY || '';
 
-// We create a fresh instance per call or maintain one? 
-// For this app, since we switch system prompts dynamically, we will 
-// instantiate the chat with the correct system prompt + history on every send 
-// to ensure the "personality" is strictly enforced for the *next* response.
-
 export const generateBearResponse = async (
-  messages: Message[], 
+  messages: Message[],
   currentMode: Mode,
   userMessage: string,
   userProfile?: UserProfile | null
 ): Promise<string> => {
   if (!API_KEY) {
-    throw new Error("API Key missing. System integrity compromised.");
+    console.error("API Key is missing.");
+    return "Error: Neural Link Offline (Missing API Key).";
   }
-
-  const ai = new GoogleGenAI({ apiKey: API_KEY });
-  
-  const modelId = 'gemini-2.5-flash';
-  
-  // Select base prompt
-  let systemInstruction = currentMode === 'PAWS' ? PAWS_SYSTEM_PROMPT : CLAWS_SYSTEM_PROMPT;
-
-  // Personalize prompt if user name is available
-  if (userProfile && userProfile.name) {
-    const name = userProfile.name;
-    // Replace standard casing "Tabi" with user name
-    systemInstruction = systemInstruction.replace(/Tabi/g, name);
-    // Replace uppercase "TABI" (used in CLAWS shouting) with uppercase user name
-    systemInstruction = systemInstruction.replace(/TABI/g, name.toUpperCase());
-  }
-
-  // Convert app messages to Gemini history format
-  // We exclude the very last user message (which is the new one) because we send it as the active prompt via sendMessage
-  // The 'messages' array passed here includes the new message at the end.
-  const historyMessages = messages.slice(0, -1);
-
-  const history: Content[] = historyMessages.map(m => ({
-    role: m.role,
-    parts: [{ text: m.text } as Part]
-  }));
 
   try {
-    const chat = ai.chats.create({
-      model: modelId,
-      config: {
-        systemInstruction: systemInstruction,
-        temperature: 0.9, // Increased temperature for more variety
-      },
-      history: history
+    const genAI = new GoogleGenerativeAI(API_KEY);
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+
+    // Select base prompt
+    let systemInstruction = currentMode === 'PAWS' ? PAWS_SYSTEM_PROMPT : CLAWS_SYSTEM_PROMPT;
+
+    // Personalize prompt if user name is available
+    if (userProfile && userProfile.name) {
+      const name = userProfile.name;
+      systemInstruction = systemInstruction.replace(/Tabi/g, name);
+      systemInstruction = systemInstruction.replace(/TABI/g, name.toUpperCase());
+    }
+
+    // Convert app messages to Gemini history format
+    const historyMessages = messages.slice(0, -1);
+
+    const history: Content[] = historyMessages.map(m => ({
+      role: m.role,
+      parts: [{ text: m.text } as Part]
+    }));
+
+    const chat = model.startChat({
+      history: history,
+      systemInstruction: { role: 'system', parts: [{ text: systemInstruction }] },
+      generationConfig: {
+        maxOutputTokens: 1000,
+        temperature: 0.9,
+      }
     });
 
-    const result = await chat.sendMessage({
-      message: userMessage
-    });
+    const result = await chat.sendMessage(userMessage);
+    const response = await result.response;
+    const text = response.text();
 
-    return result.text || "Subsystem Error: Empty response buffer.";
+    return text || "Subsystem Error: Empty response buffer.";
 
   } catch (error) {
     console.error("Gemini Error:", error);
