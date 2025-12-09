@@ -55,13 +55,24 @@ export const generateBearResponse = async (
     return text || "Subsystem Error: Empty response buffer.";
 
   } catch (error: any) {
-    console.error("Gemini Error:", error);
+    console.error("Gemini Error Details:", {
+      message: error?.message,
+      status: error?.status,
+      statusText: error?.statusText,
+      errorDetails: error?.errorDetails,
+      apiKeyPresent: !!API_KEY,
+      apiKeyLength: API_KEY?.length || 0,
+      apiKeyPrefix: API_KEY?.substring(0, 6) || 'NONE'
+    });
+
     const errorMessage = error?.message || 'Unknown error';
-    if (errorMessage.includes('API_KEY') || errorMessage.includes('401') || errorMessage.includes('403')) {
-      return "Error: Invalid API Key. Please check your .env.local file.";
+    const statusCode = error?.status || '';
+
+    if (errorMessage.includes('API_KEY') || statusCode === 401 || statusCode === 403 || errorMessage.includes('401') || errorMessage.includes('403')) {
+      return `Error: Invalid API Key (${statusCode || 'auth failed'}). Check console for details.`;
     }
-    if (errorMessage.includes('429') || errorMessage.includes('quota')) {
-      return "Error: Rate limit reached. Please wait a moment and try again.";
+    if (statusCode === 429 || errorMessage.includes('429') || errorMessage.includes('quota') || errorMessage.includes('RESOURCE_EXHAUSTED')) {
+      return `Error: Rate limit reached (${statusCode}). Free tier: 15 req/min. Wait 60 seconds.`;
     }
     return `Connection to Bear Mainframe severed (${errorMessage}). Please try again.`;
   }

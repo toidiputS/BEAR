@@ -42,8 +42,15 @@ export default defineConfig(({ mode }) => {
       })
     ],
     define: {
-      'process.env.API_KEY': JSON.stringify(env.GEMINI_API_KEY || env.VITE_GEMINI_API_KEY),
-      'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY || env.VITE_GEMINI_API_KEY)
+      // Check both loadEnv (for .env files) and process.env (for Vercel/system env vars)
+      'process.env.API_KEY': JSON.stringify(
+        env.GEMINI_API_KEY || env.VITE_GEMINI_API_KEY ||
+        process.env.GEMINI_API_KEY || process.env.VITE_GEMINI_API_KEY
+      ),
+      'process.env.GEMINI_API_KEY': JSON.stringify(
+        env.GEMINI_API_KEY || env.VITE_GEMINI_API_KEY ||
+        process.env.GEMINI_API_KEY || process.env.VITE_GEMINI_API_KEY
+      )
     },
     resolve: {
       alias: {
