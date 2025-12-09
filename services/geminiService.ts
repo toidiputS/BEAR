@@ -12,13 +12,14 @@ export const generateBearResponse = async (
   userProfile?: UserProfile | null
 ): Promise<string> => {
   if (!API_KEY) {
-    console.error("API Key is missing.");
-    return "Error: Neural Link Offline (Missing API Key).";
+    console.error("CRITICAL ERROR: API Key is missing. Please check your .env.local file and ensure GEMINI_API_KEY is set.");
+    console.debug("Current process.env state:", process.env); // Debugging aid
+    return "Error: Neural Link Offline (Missing API Key - Check Console).";
   }
 
   try {
     const genAI = new GoogleGenerativeAI(API_KEY);
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
 
     // Select base prompt
     let systemInstruction = currentMode === 'PAWS' ? PAWS_SYSTEM_PROMPT : CLAWS_SYSTEM_PROMPT;
@@ -53,8 +54,15 @@ export const generateBearResponse = async (
 
     return text || "Subsystem Error: Empty response buffer.";
 
-  } catch (error) {
+  } catch (error: any) {
     console.error("Gemini Error:", error);
-    return "Connection to Bear Mainframe severed. Please try again.";
+    const errorMessage = error?.message || 'Unknown error';
+    if (errorMessage.includes('API_KEY') || errorMessage.includes('401') || errorMessage.includes('403')) {
+      return "Error: Invalid API Key. Please check your .env.local file.";
+    }
+    if (errorMessage.includes('429') || errorMessage.includes('quota')) {
+      return "Error: Rate limit reached. Please wait a moment and try again.";
+    }
+    return `Connection to Bear Mainframe severed (${errorMessage}). Please try again.`;
   }
 };

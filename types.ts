@@ -25,6 +25,7 @@ export interface JournalEntry {
   content: string;
   timestamp: number;
   mode: Mode;
+  mood?: string; // Mood tag emoji
 }
 
 export interface Settings {

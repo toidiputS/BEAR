@@ -20,7 +20,7 @@ export default defineConfig(({ mode }) => {
         },
         includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'mask-icon.svg'],
         manifest: {
-          name: 'B.E.A.R. System',
+          name: 'B.E.A.R. Necessities',
           short_name: 'BEAR',
           description: 'Bifurcated Engine of Attitude Readjustment',
           theme_color: '#111827',
@@ -42,8 +42,8 @@ export default defineConfig(({ mode }) => {
       })
     ],
     define: {
-      'process.env.API_KEY': JSON.stringify(env.GEMINI_API_KEY),
-      'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY)
+      'process.env.API_KEY': JSON.stringify(env.GEMINI_API_KEY || env.VITE_GEMINI_API_KEY),
+      'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY || env.VITE_GEMINI_API_KEY)
     },
     resolve: {
       alias: {

@@ -55,6 +55,10 @@ const App: React.FC = () => {
   const [pokeCount, setPokeCount] = useState(0);
   const [pokeMessage, setPokeMessage] = useState<string | null>(null);
   const [dnpPosition, setDnpPosition] = useState({ top: '15%', left: '85%' });
+  const [dnpVisible, setDnpVisible] = useState(false); // New: Controls visibility
+
+  // Bear Interjection State
+  const [interjection, setInterjection] = useState<{ text: string; bear: 'PAWS' | 'CLAWS' } | null>(null);
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -120,21 +124,79 @@ const App: React.FC = () => {
     }
   }, [pokeMessage]);
 
-  // Move the Do Not Press button randomly
+  // Move the Do Not Press button randomly - RARE & FAST
   useEffect(() => {
-    const moveButton = () => {
-      // Keep it within 15% - 85% vertical and 10% - 80% horizontal to avoid header/footer/edges
+    const teleportButton = () => {
+      // Pick random position
       const randomTop = 15 + Math.random() * 70;
       const randomLeft = 10 + Math.random() * 70;
       setDnpPosition({ top: `${randomTop}%`, left: `${randomLeft}%` });
+
+      // Show for 1.5 seconds
+      setDnpVisible(true);
+      setTimeout(() => setDnpVisible(false), 1500);
     };
 
-    // Initial move
-    moveButton();
+    // Appear every 60-180 seconds (random)
+    const scheduleNext = () => {
+      const delay = 60000 + Math.random() * 120000; // 1-3 minutes
+      return setTimeout(() => {
+        teleportButton();
+        timerId = scheduleNext();
+      }, delay);
+    };
 
-    // Move every 5 seconds
-    const interval = setInterval(moveButton, 5000);
-    return () => clearInterval(interval);
+    // Initial appearance after short delay
+    let timerId = setTimeout(() => {
+      teleportButton();
+      timerId = scheduleNext();
+    }, 5000);
+
+    return () => clearTimeout(timerId);
+  }, []);
+
+  // Bear Interjection System - Random sibling rivalry toasts
+  const BEAR_INTERJECTIONS = [
+    { text: "C.L.A.W.S. is yelling again. Just ignore her.", bear: 'PAWS' as const },
+    { text: "P.A.W.S. IS ASLEEP. AS USUAL. USELESS.", bear: 'CLAWS' as const },
+    { text: "Still here. Still judging. Still tired.", bear: 'PAWS' as const },
+    { text: "VITAL SIGNS: QUESTIONABLE. HYDRATE IMMEDIATELY.", bear: 'CLAWS' as const },
+    { text: "Have you eaten today? I haven't. Bears need salmon.", bear: 'PAWS' as const },
+    { text: "POSTURE CHECK. SIT UP. THAT IS AN ORDER.", bear: 'CLAWS' as const },
+    { text: "She's so intense. I need a nap just watching her.", bear: 'PAWS' as const },
+    { text: "HE HASN'T MOVED IN 3 HOURS. VITAL SIGNS UNCLEAR.", bear: 'CLAWS' as const },
+    { text: "You're doing fine. Probably. I don't know. I'm a bear.", bear: 'PAWS' as const },
+    { text: "REMINDER: FEELINGS ARE TEMPORARY. TACTICAL HUG AVAILABLE.", bear: 'CLAWS' as const },
+    { text: "C.L.A.W.S. wants me to tell you to drink water. There.", bear: 'PAWS' as const },
+    { text: "P.A.W.S. SUGGESTED 'DOING NOTHING'. I VETOED THAT.", bear: 'CLAWS' as const },
+    { text: "I heard you sigh. That's valid. Carry on.", bear: 'PAWS' as const },
+    { text: "SCANNING... CHAOS LEVELS ELEVATED. CONTINUE MONITORING.", bear: 'CLAWS' as const },
+    { text: "Just checking in. You good? Lie to me if you want.", bear: 'PAWS' as const },
+    { text: "UNAUTHORIZED DOOM SCROLLING DETECTED. CEASE.", bear: 'CLAWS' as const },
+  ];
+
+  useEffect(() => {
+    const showInterjection = () => {
+      const randomQuote = BEAR_INTERJECTIONS[Math.floor(Math.random() * BEAR_INTERJECTIONS.length)];
+      setInterjection(randomQuote);
+      setTimeout(() => setInterjection(null), 4000); // Show for 4 seconds
+    };
+
+    const scheduleNext = () => {
+      const delay = 90000 + Math.random() * 120000; // 1.5-3.5 minutes
+      return setTimeout(() => {
+        showInterjection();
+        timerId = scheduleNext();
+      }, delay);
+    };
+
+    // First interjection after 30 seconds
+    let timerId = setTimeout(() => {
+      showInterjection();
+      timerId = scheduleNext();
+    }, 30000);
+
+    return () => clearTimeout(timerId);
   }, []);
 
   const refreshQuickActions = () => {
@@ -213,12 +275,13 @@ const App: React.FC = () => {
     handleSendMessage(action.prompt, action.prompt + hiddenInstruction);
   };
 
-  const saveToJournal = (text: string) => {
+  const saveToJournal = (text: string, mood?: string) => {
     const entry: JournalEntry = {
       id: generateId(),
       content: text,
       timestamp: Date.now(),
-      mode: mode
+      mode: mode,
+      mood: mood
     };
     setJournal(prev => [entry, ...prev]);
 
@@ -317,28 +380,44 @@ const App: React.FC = () => {
   return (
     <div className={`flex flex-col h-screen w-full transition-colors duration-500 relative overflow-hidden ${themeContainer} ${wrapperModeClass}`}>
 
-      {/* FLOATING DISTRACTION / CHAOS BUTTON */}
-      <button
-        onClick={() => setShowChaos(true)}
-        style={{ top: dnpPosition.top, left: dnpPosition.left }}
-        className="fixed z-30 p-2 rounded-lg bg-red-500/10 hover:bg-red-500 text-red-500 hover:text-white transition-all duration-[2000ms] ease-in-out shadow-lg hover:shadow-red-500/40 border border-red-500/20 group backdrop-blur-sm"
-        title="DO NOT PRESS"
-      >
-        <Icon name="TriangleAlert" size={24} className="animate-pulse" />
-        <span className="sr-only">DO NOT PRESS</span>
-      </button>
+      {/* FLOATING DISTRACTION / CHAOS BUTTON - RARE & FAST */}
+      {dnpVisible && (
+        <button
+          onClick={() => setShowChaos(true)}
+          style={{ top: dnpPosition.top, left: dnpPosition.left }}
+          className="fixed z-30 p-2 rounded-lg bg-red-500 text-white shadow-lg shadow-red-500/40 border border-red-500/50 animate-in zoom-in duration-200"
+          title="DO NOT PRESS"
+        >
+          <Icon name="TriangleAlert" size={24} />
+          <span className="sr-only">DO NOT PRESS</span>
+        </button>
+      )}
 
       {/* HEADER */}
       <header className={`px-4 py-3 flex items-center justify-between shrink-0 shadow-sm transition-colors duration-500 z-40 relative ${headerClass}`}>
         <div className="flex items-center gap-2">
-          <div className="relative">
+          <div className="relative flex items-center gap-1">
+            {/* HOME BUTTON - Only shows when in conversation */}
+            {messages.length > 0 && (
+              <button
+                onClick={handleReturnToMenu}
+                className={`p-2 rounded-lg transition-colors duration-200 ${mode === 'PAWS'
+                  ? 'text-stone-600 hover:bg-black/5'
+                  : 'text-stone-400 hover:bg-white/10'
+                  }`}
+                title="Return to Menu"
+              >
+                <Icon name="Home" size={20} />
+              </button>
+            )}
+            {/* BEAR ICON - Always for Easter Egg */}
             <button
-              onClick={messages.length > 0 ? handleReturnToMenu : handleBotPoke}
+              onClick={handleBotPoke}
               className={`p-2 rounded-lg transition-colors duration-200 ${mode === 'PAWS'
                 ? 'text-stone-600 hover:bg-black/5'
                 : 'text-stone-400 hover:bg-white/10'
                 }`}
-              title={messages.length > 0 ? "Return to Menu" : "Poke the Bear"}
+              title="Poke the Bear"
             >
               <Icon name="Bot" size={24} />
             </button>
@@ -421,6 +500,16 @@ const App: React.FC = () => {
               <Icon name="RefreshCcw" size={12} />
               REFRESH PROTOCOLS
             </button>
+
+            {/* Creator Credit */}
+            <a
+              href="https://bear.itsai.chat"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-8 text-[10px] font-mono opacity-30 hover:opacity-70 transition-opacity text-center"
+            >
+              🐻 BEARLY made by TRAD34
+            </a>
           </div>
         )}
 
@@ -492,6 +581,8 @@ const App: React.FC = () => {
         onClose={() => setShowJournal(false)}
         entries={journal}
         onDelete={deleteJournalEntry}
+        onAddEntry={saveToJournal}
+        currentMode={mode}
       />
 
       <Settings
@@ -538,6 +629,21 @@ const App: React.FC = () => {
               </button>
             </div>
           </div>
+        </div>
+      )}
+
+      {/* BEAR INTERJECTION TOAST */}
+      {interjection && (
+        <div
+          className={`fixed bottom-24 left-1/2 -translate-x-1/2 z-50 px-6 py-3 rounded-xl shadow-2xl font-mono text-sm max-w-xs text-center animate-in slide-in-from-bottom-4 fade-in duration-300 ${interjection.bear === 'PAWS'
+            ? 'bg-paws-accent text-white'
+            : 'bg-claws-text text-black'
+            }`}
+        >
+          <div className="text-[10px] uppercase tracking-widest opacity-70 mb-1">
+            {interjection.bear === 'PAWS' ? '🐻 P.A.W.S.' : '⚠️ C.L.A.W.S.'}
+          </div>
+          <div className="leading-snug">{interjection.text}</div>
         </div>
       )}
 

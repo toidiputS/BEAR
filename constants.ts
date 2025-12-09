@@ -1,6 +1,6 @@
 
 
-export const APP_NAME = "B.E.A.R.";
+export const APP_NAME = "B.E.A.R. Necessities";
 export const APP_SUBTITLE = "Bifurcated Engine of Attitude Readjustment";
 
 export const PAWS_SYSTEM_PROMPT = `
@@ -132,28 +132,28 @@ Sample Vibe:
 `;
 
 export const MASTER_QUICK_ACTIONS = [
-  // Standard (But Flavored)
-  { id: 'ANGRY', label: 'SYSTEM ALERT: ANGER', icon: 'TriangleAlert', prompt: "I am feeling extremely angry right now. I need stabilization." },
-  { id: 'OVERWHELMED', label: 'SYSTEM OVERLOAD', icon: 'Activity', prompt: "I am completely overwhelmed and can't process anything." },
-  { id: 'ANXIOUS', label: 'JITTER DETECTED', icon: 'Wind', prompt: "I'm feeling anxious and shaky. Help me ground." },
-  { id: 'VENT', label: 'OPEN VALVE', icon: 'MessageSquare', prompt: "I just need to vent without advice. Listen to this." },
-  { id: 'CONFUSED', label: 'SYSTEM GLITCH', icon: 'Zap', prompt: "I don't even know what I'm feeling. I am confused. Help me sort it out." },
-  { id: 'TIRED', label: 'LOW BATTERY', icon: 'BatteryLow', prompt: "I am exhausted. Low battery. I need permission to do nothing." },
-  
-  // Absurd / Funny
-  { id: 'SCREAM_VOID', label: 'SCREAM INTO VOID', icon: 'MicOff', prompt: "I need to metaphorically scream into a void. Please witness it." },
-  { id: 'BECOME_MOSS', label: 'BECOME MOSS', icon: 'Trees', prompt: "I no longer wish to perceive. Help me pretend I am moss on a rock." },
-  { id: 'EAT_RICH', label: 'EAT THE RICH', icon: 'DollarSign', prompt: "I am frustrated with capitalism. Please validate this angst." },
-  { id: 'GHOST_MODE', label: 'GHOST MODE', icon: 'Ghost', prompt: "I want to disappear. Not in a bad way, just in a 'spectator mode' way." },
-  { id: 'REBOOT', label: 'HARD REBOOT', icon: 'Power', prompt: "My brain needs to turn off and on again. Guide me through a reboot." },
-  { id: 'HUG_ROCK', label: 'HUG A ROCK', icon: 'Mountain', prompt: "I need something extremely stable. Tell me about the stability of rocks." },
-  { id: 'NOPE', label: 'JUST NOPE', icon: 'CircleX', prompt: "Today is a 'Nope' day. Please confirm that 'Nope' is a valid status." },
-  { id: 'CHAOS_POTATO', label: 'CHAOS POTATO', icon: 'Move', prompt: "I am a chaotic potato. I am rolling around doing nothing. Validate me." },
-  { id: 'DOOM_SCROLL', label: 'DOOM SCROLLING', icon: 'Smartphone', prompt: "I am stuck in a scroll loop. Break me out of it." },
-  { id: 'EXISTENTIAL', label: 'WHY ARE WE HERE', icon: 'CircleHelp', prompt: "I am having an existential crisis. Keep it light, but acknowledge the abyss." },
-  { id: 'ALIENS', label: 'ABDUCT ME', icon: 'Rocket', prompt: "I wish aliens would pick me up. Discuss the pros and cons." },
-  { id: 'CAT_ENERGY', label: 'CAT ENERGY', icon: 'Cat', prompt: "I want to knock things off a table. Channel cat energy for me." },
-  { id: 'BURRITO', label: 'BECOME BURRITO', icon: 'Scroll', prompt: "I want to wrap myself in blankets. Instruct me on proper burrito technique." },
-  { id: 'NO_THOUGHTS', label: 'NO THOUGHTS', icon: 'CloudOff', prompt: "Head empty. No thoughts. Just smooth brain. Keep it that way." },
-  { id: 'PANIC_BUTTON', label: 'PANIC BUTTON', icon: 'Siren', prompt: "I am panicking about something trivial. Make it funny." }
+   // Standard (But Flavored)
+   { id: 'ANGRY', label: 'SYSTEM ALERT: ANGER', icon: 'TriangleAlert', prompt: "I am feeling extremely angry right now. I need stabilization." },
+   { id: 'OVERWHELMED', label: 'SYSTEM OVERLOAD', icon: 'Activity', prompt: "I am completely overwhelmed and can't process anything." },
+   { id: 'ANXIOUS', label: 'JITTER DETECTED', icon: 'Wind', prompt: "I'm feeling anxious and shaky. Help me ground." },
+   { id: 'VENT', label: 'OPEN VALVE', icon: 'MessageSquare', prompt: "I just need to vent without advice. Listen to this." },
+   { id: 'CONFUSED', label: 'SYSTEM GLITCH', icon: 'Zap', prompt: "I don't even know what I'm feeling. I am confused. Help me sort it out." },
+   { id: 'TIRED', label: 'LOW BATTERY', icon: 'BatteryLow', prompt: "I am exhausted. Low battery. I need permission to do nothing." },
+
+   // Absurd / Funny
+   { id: 'SCREAM_VOID', label: 'SCREAM INTO VOID', icon: 'MicOff', prompt: "I need to metaphorically scream into a void. Please witness it." },
+   { id: 'BECOME_MOSS', label: 'BECOME MOSS', icon: 'Trees', prompt: "I no longer wish to perceive. Help me pretend I am moss on a rock." },
+   { id: 'EAT_RICH', label: 'EAT THE RICH', icon: 'DollarSign', prompt: "I am frustrated with capitalism. Please validate this angst." },
+   { id: 'GHOST_MODE', label: 'GHOST MODE', icon: 'Ghost', prompt: "I want to disappear. Not in a bad way, just in a 'spectator mode' way." },
+   { id: 'REBOOT', label: 'HARD REBOOT', icon: 'Power', prompt: "My brain needs to turn off and on again. Guide me through a reboot." },
+   { id: 'HUG_ROCK', label: 'HUG A ROCK', icon: 'Mountain', prompt: "I need something extremely stable. Tell me about the stability of rocks." },
+   { id: 'NOPE', label: 'JUST NOPE', icon: 'CircleX', prompt: "Today is a 'Nope' day. Please confirm that 'Nope' is a valid status." },
+   { id: 'CHAOS_POTATO', label: 'CHAOS POTATO', icon: 'Move', prompt: "I am a chaotic potato. I am rolling around doing nothing. Validate me." },
+   { id: 'DOOM_SCROLL', label: 'DOOM SCROLLING', icon: 'Smartphone', prompt: "I am stuck in a scroll loop. Break me out of it." },
+   { id: 'EXISTENTIAL', label: 'WHY ARE WE HERE', icon: 'CircleHelp', prompt: "I am having an existential crisis. Keep it light, but acknowledge the abyss." },
+   { id: 'ALIENS', label: 'ABDUCT ME', icon: 'Rocket', prompt: "I wish aliens would pick me up. Discuss the pros and cons." },
+   { id: 'CAT_ENERGY', label: 'CAT ENERGY', icon: 'Cat', prompt: "I want to knock things off a table. Channel cat energy for me." },
+   { id: 'BURRITO', label: 'BECOME BURRITO', icon: 'Scroll', prompt: "I want to wrap myself in blankets. Instruct me on proper burrito technique." },
+   { id: 'NO_THOUGHTS', label: 'NO THOUGHTS', icon: 'CloudOff', prompt: "Head empty. No thoughts. Just smooth brain. Keep it that way." },
+   { id: 'PANIC_BUTTON', label: 'PANIC BUTTON', icon: 'Siren', prompt: "I am panicking about something trivial. Make it funny." }
 ];

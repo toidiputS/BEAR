@@ -28,11 +28,16 @@ export const useSpeechRecognition = (): SpeechRecognitionHook => {
 
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             recognitionRef.current.onresult = (event: any) => {
-                let currentTranscript = '';
-                for (let i = 0; i < event.results.length; i++) {
-                    currentTranscript += event.results[i][0].transcript;
+                // Only process NEW final results to avoid echoing
+                let finalTranscript = '';
+                for (let i = event.resultIndex; i < event.results.length; i++) {
+                    if (event.results[i].isFinal) {
+                        finalTranscript += event.results[i][0].transcript;
+                    }
                 }
-                setTranscript(currentTranscript);
+                if (finalTranscript) {
+                    setTranscript(finalTranscript);
+                }
             };
 
             recognitionRef.current.onerror = (event: any) => {
